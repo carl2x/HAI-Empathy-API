@@ -54,18 +54,18 @@ class Dummy:
         """
         print("Listening...")
         ret = self.furhat.listen()
-        print(ret)
-        return ret
+        assert type(ret) == Status
+        print(f"Heard {ret}\n------------------")
+        return ret.message
 
 
 if __name__ == "__main__":
     dummy = Dummy()
     dummy.speak_text("Hello, my name is Furhat. I am a social robot.", times=1, pause=1)
     dummy.speak_url("https://www2.cs.uic.edu/~i101/SoundFiles/gettysburg10.wav")
-    time.sleep(10)
-    res = dummy.listen()
-    assert type(res) == Status
-    message = res.message
+    time.sleep(11)
+    
+    message = dummy.listen()  
     assert message is not None
     if "how are you" in message.lower():
         dummy.speak_text("I am fine, thank you.")
