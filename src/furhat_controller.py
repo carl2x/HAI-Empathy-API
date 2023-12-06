@@ -5,6 +5,7 @@ class FurhatController:
     def __init__(self) -> None:
         self.furhat = None
         self.voices = []
+        self.gestures = []
 
     def connect(self, address: str = "localhost"):
         """
@@ -15,15 +16,16 @@ class FurhatController:
         self.furhat = FurhatRemoteAPI(address)
         self.voices = self.furhat.get_voices()
         self.furhat.set_voice(name="Matthew")
+        self.gestures = self.furhat.get_gestures()
 
-    def set_voice(self, voice: str):
+    def set_voice(self, name: str):
         """
         Set the voice of the Furhat robot.
 
-        :param voice: The name of the voice to set.
+        :param name: The name of the voice to set.
         """
         assert self.furhat is not None, "Furhat not connected"
-        self.furhat.set_voice(name=voice)
+        self.furhat.set_voice(name=name)
 
     def say(
         self,
@@ -102,3 +104,12 @@ class FurhatController:
             self.furhat.attend(userid=userid)
         elif mode == "location":
             self.furhat.attend(location=location)
+
+    def gesture(self, name: str):
+        """
+        Make the Furhat robot perform a gesture.
+
+        :param name: The name of the gesture to perform.
+        """
+        assert self.furhat is not None, "Furhat not connected"
+        self.furhat.gesture(name=name)
